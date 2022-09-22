@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: airflow-prod
+  name: airflow
+  annotations:
+    # alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/target-type: instance
+    # alb.ingress.kubernetes.io/load-balancer-name: airflow
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/actions.ssl-redirect: '443'
+    kubernetes.io/ingress.class: niginx
+    alb.ingress.kubernetes.io/certifiacate-arn: 'arn:aws:acm:ap-south-1:998547497418:certificate/4f3d07a0-dc7b-4285-a039-85e8e05c520d'
+spec:
+  rules:
+  - host: eks-airflow.redcarpetup.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: airflow-web
+            port: 
+              number: 9003
+# productionuser
+# k6i9lmW3jb
+
+# docker run -d --network=host -e "POSTGRES_PASSWORD=k6i9lmW3jb" -e "POSTGRES_USER=productionuser"
